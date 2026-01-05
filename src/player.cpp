@@ -13,24 +13,25 @@ void game::Player::Draw() {
     rect.Draw(YELLOW);
 }
 
-void game::Player::applyVelocity() {
+bool game::Player::applyVelocity() {
     velocity += gravity;
 
     float newY{ rect.GetY() + velocity };
     newY = std::max(newY, 0.0f);
 
     if (newY > screenHeight) {
-        exit(0);
+        return false;
     }
 
     rect.SetY(newY);
+    return true;
 }
 
-void game::Player::processMovement() {
+bool game::Player::processMovement() {
     bool moveKeyPressed{ raylib::Keyboard::IsKeyPressed(KEY_SPACE) || raylib::Mouse::IsButtonPressed(MOUSE_LEFT_BUTTON) };
     if (moveKeyPressed) {
         velocity = jumpStrength;
     }
      
-    applyVelocity();
+    return applyVelocity();
 }

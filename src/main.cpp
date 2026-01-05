@@ -17,7 +17,9 @@ int main() {
             window.ClearBackground(BLUE);
 
             player.Draw();
-            player.processMovement();
+            if(!player.processMovement()) {
+                break;
+            }
         }
         EndDrawing();
     }

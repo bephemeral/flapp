@@ -11,10 +11,10 @@ namespace game {
         const float gravity{ 0.5f };
         float velocity{ 0 };
 
-        void applyVelocity();
+        bool applyVelocity();
     public:
         void Draw();
-        void processMovement();
+        bool processMovement();
 
         Player(const raylib::Vector2 &screenSize);
     };
