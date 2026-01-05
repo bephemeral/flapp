@@ -8,17 +8,20 @@ int main() {
     raylib::Vector2 rectSize{ 50, 50 };
     raylib::Vector2 rectPos = (screenSize - rectSize) / 2.0f;
     raylib::Rectangle rect{ rectPos, rectSize };
+    int playerSpeed{ 3 };
 
     SetTargetFPS(60);
 
     while (!window.ShouldClose())
     {
         BeginDrawing();
+        {
+            window.ClearBackground(BLUE);
 
-        window.ClearBackground(BLUE);
+            rect.SetY(rect.GetY() + (raylib::Keyboard::IsKeyDown(KEY_SPACE) || raylib::Mouse::IsButtonDown(MOUSE_LEFT_BUTTON) ? -playerSpeed : playerSpeed));
 
-        rect.Draw(YELLOW);
-
+            rect.Draw(YELLOW);
+        }
         EndDrawing();
     }
 
