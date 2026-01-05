@@ -4,11 +4,14 @@ namespace game {
     class Player {
     private:
         raylib::Rectangle rect;
-        int playerSpeed{ 3 };
+
+        const int jumpStrength{ -10 };
+        const float gravity{ 0.5f };
+        float velocity{ 0 };
     public:
         void Draw();
         void processMovement();
 
-        Player(raylib::Vector2 screenSize);
+        Player(const raylib::Vector2 &screenSize);
     };
 }
