@@ -16,6 +16,8 @@ namespace game {
         bool applyVelocity();
     public:
         void Draw();
+
+        raylib::Rectangle getRect();
         bool processMovement();
     };
 }

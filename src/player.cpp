@@ -5,6 +5,10 @@ void game::Player::Draw() {
     rect.Draw(YELLOW);
 }
 
+raylib::Rectangle game::Player::getRect() {
+    return rect;
+}
+
 bool game::Player::applyVelocity() {
     velocity += gravity;
 
@@ -12,11 +16,11 @@ bool game::Player::applyVelocity() {
     newY = std::max(newY, 0.0f);
 
     if (newY > screenSize) {
-        return false;
+        return true;
     }
 
     rect.SetY(newY);
-    return true;
+    return false;
 }
 
 bool game::Player::processMovement() {

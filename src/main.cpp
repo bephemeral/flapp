@@ -13,25 +13,25 @@ int main() {
 
     SetTargetFPS(60);
 
-    while (!window.ShouldClose())
-    {
+    while (!window.ShouldClose()) {
         BeginDrawing();
-        {
-            window.ClearBackground(BLUE);
+        window.ClearBackground(BLUE);
 
-            float lastX{ pipes.back().GetX() };
-            for (auto& pipe : pipes) {
-                pipe.processMovement(lastX);
-                pipe.Draw();
+        const raylib::Rectangle playerRect{ player.getRect() };
+        float lastX{ pipes.back().GetX() };
+        for (auto& pipe : pipes) {
+            if(pipe.processMovement(lastX, playerRect))
+                return 0;
 
-                lastX = pipe.GetX();
-            }
+            pipe.Draw();
 
-            if(!player.processMovement()) {
-                break;
-            }
-            player.Draw();
+            lastX = pipe.GetX();
         }
+
+        if(player.processMovement())
+            return 0;
+
+        player.Draw();
         EndDrawing();
     }
 
