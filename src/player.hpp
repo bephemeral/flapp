@@ -3,12 +3,12 @@
 namespace game {
     class Player {
     private:
-        int screenHeight;
+        int screenSize;
 
         raylib::Rectangle rect;
 
-        const int jumpStrength{ -10 };
-        const float gravity{ 0.5f };
+        static constexpr int jumpStrength{ -10 };
+        static constexpr float gravity{ 0.5f };
         float velocity{ 0 };
 
         bool applyVelocity();
@@ -16,6 +16,6 @@ namespace game {
         void Draw();
         bool processMovement();
 
-        Player(const raylib::Vector2 &screenSize);
+        Player(float playerSize, int screenSize);
     };
 }

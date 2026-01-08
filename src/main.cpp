@@ -1,12 +1,15 @@
 #include "raylib-cpp.hpp"
 #include "player.hpp"
+#include "pipe.hpp"
 
 int main() {
-    raylib::Vector2 screenSize{ 800, 450 };
+    static constexpr int screenSize{ 600 };
+    static constexpr int playerSize{ 50 };
 
-    raylib::Window window{ screenSize.x, screenSize.y, "Flapp" };
+    raylib::Window window{ screenSize, screenSize, "Flapp" };
 
-    game::Player player{ screenSize };
+    game::Player player{ playerSize, screenSize };
+    game::Pipe pipe{ playerSize, screenSize };
 
     SetTargetFPS(60);
 
@@ -16,10 +19,13 @@ int main() {
         {
             window.ClearBackground(BLUE);
 
-            player.Draw();
+            pipe.processMovement();
+            pipe.Draw();
+
             if(!player.processMovement()) {
                 break;
             }
+            player.Draw();
         }
         EndDrawing();
     }

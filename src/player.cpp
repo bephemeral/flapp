@@ -1,12 +1,9 @@
 #include "player.hpp"
 
-game::Player::Player(const raylib::Vector2 &screenSize) {
-    screenHeight = screenSize.y;
+game::Player::Player(float playerSize, int screenSize) : screenSize(screenSize) {
+    const int playerPos = (screenSize - playerSize) / 2; // centers player, assumes window is square
 
-    raylib::Vector2 playerSize{ 50, 50 };
-    raylib::Vector2 playerPos = (screenSize - playerSize) / 2.0f;
-
-    rect = raylib::Rectangle{ playerPos, playerSize };
+    rect = raylib::Rectangle{ playerPos, playerPos, playerSize, playerSize };
 }
 
 void game::Player::Draw() {
@@ -19,7 +16,7 @@ bool game::Player::applyVelocity() {
     float newY{ rect.GetY() + velocity };
     newY = std::max(newY, 0.0f);
 
-    if (newY > screenHeight) {
+    if (newY > screenSize) {
         return false;
     }
 

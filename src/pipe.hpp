@@ -6,11 +6,12 @@ namespace game {
         raylib::Rectangle top;
         raylib::Rectangle bottom;
 
-        const int speed{ 2 };
+        static constexpr int speed{ 2 };
+        static constexpr int width{ 100 };
     public:
         void Draw();
-        bool processMovement();
+        void processMovement();
 
-        Pipe(const raylib::Vector2 &screenSize);
+        Pipe(float playerSize, int screenSize);
     };
 }
