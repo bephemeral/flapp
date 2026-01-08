@@ -21,6 +21,9 @@ void game::Pipe::Draw() {
 }
 
 void game::Pipe::processMovement() {
-    top.SetX(top.GetX() - speed);
-    bottom.SetX(bottom.GetX() - speed);
+    const float oldX{ top.GetX() };
+    const float newX{ oldX == 0 ? game::screenSize : oldX - speed };
+
+    top.SetX(newX);
+    bottom.SetX(newX);
 }
