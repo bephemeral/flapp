@@ -17,7 +17,7 @@ namespace game {
     public:
         void Draw();
 
-        raylib::Rectangle getRect();
+        const raylib::Rectangle& getRect() const;
         bool processMovement();
     };
 }
