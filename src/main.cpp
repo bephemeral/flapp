@@ -22,7 +22,7 @@ int main() {
 
         player.Draw();
 
-        const raylib::Rectangle playerRect{ player.getRect() };
+        const raylib::Rectangle& playerRect{ player.getRect() };
         float lastX{ pipes.back().GetX() };
         for (auto& pipe : pipes) {
             if(pipe.processMovement(lastX, playerRect))
