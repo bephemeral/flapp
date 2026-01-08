@@ -5,7 +5,7 @@ void game::Player::Draw() {
     rect.Draw(YELLOW);
 }
 
-const raylib::Rectangle& getRect() const {
+const raylib::Rectangle& game::Player::getRect() const {
     return rect;
 }
 
