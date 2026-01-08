@@ -17,6 +17,11 @@ int main() {
         BeginDrawing();
         window.ClearBackground(BLUE);
 
+        if(player.processMovement())
+            return 0;
+
+        player.Draw();
+
         const raylib::Rectangle playerRect{ player.getRect() };
         float lastX{ pipes.back().GetX() };
         for (auto& pipe : pipes) {
@@ -28,10 +33,6 @@ int main() {
             lastX = pipe.GetX();
         }
 
-        if(player.processMovement())
-            return 0;
-
-        player.Draw();
         EndDrawing();
     }
 

@@ -3,7 +3,12 @@
 #include <random>
 
 bool game::Pipe::CheckCollision(const raylib::Rectangle &player) {
-    return top.CheckCollision(player) || bottom.CheckCollision(player);
+    const raylib::Vector2 scaledSize = player.GetSize() * hitboxModifier;
+    const raylib::Vector2 offset = (player.GetSize() - scaledSize) / 2.0f;
+    const raylib::Rectangle playerHitbox{ player.GetPosition() + offset, scaledSize };
+
+
+    return top.CheckCollision(playerHitbox) || bottom.CheckCollision(playerHitbox);
 }
 
 game::Pipe::Pipe(int index) {
