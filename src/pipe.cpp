@@ -1,11 +1,17 @@
 #include "pipe.hpp"
+#include <random>
 
 game::Pipe::Pipe(float playerSize, int screenSize) {
-    const float topHeight = (screenSize / 2) - (playerSize * 2);
-    const float bottomHeight = screenSize - topHeight;
+    static std::random_device rd;
+    static std::mt19937 gen(rd());
+    static std::uniform_int_distribution<int> dist(-200, 200);
 
-    top = raylib::Rectangle{ screenSize, 0, width, topHeight };
-    bottom = raylib::Rectangle{ screenSize, bottomHeight, width, bottomHeight };
+    const int offset{ dist(gen) };
+    const float topHeight{ (screenSize / 2) - (playerSize * 2) };
+    const float bottomHeight{ screenSize - topHeight };
+
+    top = raylib::Rectangle{ screenSize, 0, width, topHeight + offset };
+    bottom = raylib::Rectangle{ screenSize, bottomHeight + offset, width, bottomHeight };
 }
 
 void game::Pipe::Draw() {
