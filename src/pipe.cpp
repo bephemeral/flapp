@@ -2,25 +2,25 @@
 #include "game.hpp"
 #include <random>
 
-bool game::Pipe::CheckCollision(const raylib::Rectangle &player) {
-    const raylib::Vector2 scaledSize = player.GetSize() * hitboxModifier;
-    const raylib::Vector2 offset = (player.GetSize() - scaledSize) / 2.0f;
-    const raylib::Rectangle playerHitbox{ player.GetPosition() + offset, scaledSize };
+bool game::Pipe::CheckCollision(const raylib::Rectangle& player) {
+    if (top.CheckCollision(player) || bottom.CheckCollision(player))
+        return true;
 
-    if(!dead && playerHitbox.CheckCollision(raylib::Rectangle(raylib::Vector2{ top.GetX() + width, 0 }, raylib::Vector2{ 1, game::screenSize }))) {
-        dead = true;
+    const float pipeCenterX = top.GetX() + width / 2.0f;
+    const float playerCenterX = player.GetX() + player.GetWidth() / 2.0f;
+
+    if (!scored && playerCenterX > pipeCenterX) {
+        scored = true;
         ++game::score;
-
-        return false;
     }
 
-    return top.CheckCollision(playerHitbox) || bottom.CheckCollision(playerHitbox);
+    return false;
 }
 
 game::Pipe::Pipe(int index) {
     static std::random_device rd;
     static std::mt19937 gen(rd());
-    static std::uniform_int_distribution<int> dist(-200, 200);
+    static std::uniform_int_distribution<int> dist(-175, 175);
 
     const float startingX = game::screenSize + (index * spacing);
     const int offsetY{ dist(gen) };
@@ -41,17 +41,18 @@ float game::Pipe::GetX() {
     return top.GetX();
 }
 
-bool game::Pipe::processMovement(float lastX, const raylib::Rectangle &player) {
-    const float oldX{ top.GetX() };
+bool game::Pipe::processMovement(float lastX, const raylib::Rectangle& player) {
+    const float oldX = top.GetX();
 
-    const float resetTo{ lastX + spacing }; 
-    const float newX{ oldX < -width ? resetTo : oldX - speed };
-
-    if(newX == resetTo)
-        dead = false;
-
-    top.SetX(newX);
-    bottom.SetX(newX);
+    if (oldX < -width) {
+        const float resetTo = lastX + spacing;
+        top.SetX(resetTo);
+        bottom.SetX(resetTo);
+        scored = false;
+    } else {
+        top.SetX(oldX - speed);
+        bottom.SetX(oldX - speed);
+    }
 
     return CheckCollision(player);
 }

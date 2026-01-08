@@ -8,7 +8,7 @@ namespace game {
         raylib::Rectangle top;
         raylib::Rectangle bottom;
 
-        bool dead{ false };
+        bool scored{ false };
 
         inline static constexpr int speed{ 3 };
         inline static constexpr int width{ 75 };
