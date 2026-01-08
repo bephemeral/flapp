@@ -1,10 +1,5 @@
 #include "player.hpp"
-
-game::Player::Player(float playerSize, int screenSize) : screenSize(screenSize) {
-    const int playerPos = (screenSize - playerSize) / 2; // centers player, assumes window is square
-
-    rect = raylib::Rectangle{ playerPos, playerPos, playerSize, playerSize };
-}
+#include "game.hpp"
 
 void game::Player::Draw() {
     rect.Draw(YELLOW);

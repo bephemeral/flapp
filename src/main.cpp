@@ -1,15 +1,13 @@
 #include "raylib-cpp.hpp"
+#include "game.hpp"
 #include "player.hpp"
 #include "pipe.hpp"
 
 int main() {
-    static constexpr int screenSize{ 600 };
-    static constexpr int playerSize{ 50 };
+    raylib::Window window{ game::screenSize, game::screenSize, "Flapp" };
 
-    raylib::Window window{ screenSize, screenSize, "Flapp" };
-
-    game::Player player{ playerSize, screenSize };
-    game::Pipe pipe{ playerSize, screenSize };
+    game::Player player{};
+    game::Pipe pipe{};
 
     SetTargetFPS(60);
 
