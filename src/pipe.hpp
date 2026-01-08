@@ -10,10 +10,12 @@ namespace game {
 
         inline static constexpr int speed{ 2 };
         inline static constexpr int width{ 100 };
+        inline static constexpr int spacing{ 400 };
     public:
         void Draw();
-        void processMovement();
+        float GetX();
+        void processMovement(float lastX);
 
-        Pipe();
+        Pipe(int index);
     };
 }

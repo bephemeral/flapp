@@ -2,17 +2,19 @@
 #include "game.hpp"
 #include <random>
 
-game::Pipe::Pipe() {
+game::Pipe::Pipe(int index) {
     static std::random_device rd;
     static std::mt19937 gen(rd());
     static std::uniform_int_distribution<int> dist(-200, 200);
 
-    const int offset{ dist(gen) };
+    const float startingX = game::screenSize + (index * spacing);
+    const float offsetY{ dist(gen) };
+
     const float topHeight{ (game::screenSize / 2) - (game::playerSize * 2) };
     const float bottomHeight{ game::screenSize - topHeight };
 
-    top = raylib::Rectangle{ game::screenSize, 0, width, topHeight + offset };
-    bottom = raylib::Rectangle{ game::screenSize, bottomHeight + offset, width, bottomHeight };
+    top = raylib::Rectangle(startingX, 0, width, topHeight + offsetY);
+    bottom = raylib::Rectangle(startingX, bottomHeight + offsetY, width, bottomHeight);
 }
 
 void game::Pipe::Draw() {
@@ -20,9 +22,13 @@ void game::Pipe::Draw() {
     bottom.Draw(GREEN);
 }
 
-void game::Pipe::processMovement() {
+float game::Pipe::GetX() {
+    return top.GetX();
+}
+
+void game::Pipe::processMovement(float lastX) {
     const float oldX{ top.GetX() };
-    const float newX{ oldX == 0 ? game::screenSize : oldX - speed };
+    const float newX{ oldX < -width ? lastX + spacing : oldX - speed };
 
     top.SetX(newX);
     bottom.SetX(newX);
