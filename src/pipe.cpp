@@ -3,7 +3,14 @@
 #include <random>
 
 bool game::Pipe::CheckCollision(const raylib::Rectangle& player) {
-    if (top.CheckCollision(player) || bottom.CheckCollision(player))
+    const raylib::Rectangle playerHitbox(
+        player.GetX() + player.GetWidth()  * (1.0f - hitboxModifier) * 0.5f,
+        player.GetY() + player.GetHeight() * (1.0f - hitboxModifier) * 0.5f,
+        player.GetWidth()  * hitboxModifier,
+        player.GetHeight() * hitboxModifier
+    );
+
+    if (top.CheckCollision(playerHitbox) || bottom.CheckCollision(playerHitbox))
         return true;
 
     const float pipeCenterX = top.GetX() + width / 2.0f;
