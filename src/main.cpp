@@ -1,26 +1,37 @@
 #include "raylib-cpp.hpp"
+#include "game.hpp"
 #include "player.hpp"
+#include "pipe.hpp"
+#include <array>
 
 int main() {
-    raylib::Vector2 screenSize{ 800, 450 };
+    raylib::Window window{ game::screenSize, game::screenSize, "Flapp" };
 
-    raylib::Window window{ screenSize.x, screenSize.y, "Flapp" };
+    game::Player player{};
 
-    game::Player player{ screenSize };
+    std::array<game::Pipe, 3> pipes = { game::Pipe(0), game::Pipe(1), game::Pipe(2) };
 
     SetTargetFPS(60);
 
-    while (!window.ShouldClose())
-    {
+    while (!window.ShouldClose()) {
         BeginDrawing();
-        {
-            window.ClearBackground(BLUE);
+        window.ClearBackground(BLUE);
 
-            player.Draw();
-            if(!player.processMovement()) {
-                break;
-            }
+        const raylib::Rectangle playerRect{ player.getRect() };
+        float lastX{ pipes.back().GetX() };
+        for (auto& pipe : pipes) {
+            if(pipe.processMovement(lastX, playerRect))
+                return 0;
+
+            pipe.Draw();
+
+            lastX = pipe.GetX();
         }
+
+        if(player.processMovement())
+            return 0;
+
+        player.Draw();
         EndDrawing();
     }
 

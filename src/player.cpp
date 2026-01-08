@@ -1,16 +1,12 @@
 #include "player.hpp"
-
-game::Player::Player(const raylib::Vector2 &screenSize) {
-    screenHeight = screenSize.y;
-
-    raylib::Vector2 playerSize{ 50, 50 };
-    raylib::Vector2 playerPos = (screenSize - playerSize) / 2.0f;
-
-    rect = raylib::Rectangle{ playerPos, playerSize };
-}
+#include "game.hpp"
 
 void game::Player::Draw() {
     rect.Draw(YELLOW);
+}
+
+raylib::Rectangle game::Player::getRect() {
+    return rect;
 }
 
 bool game::Player::applyVelocity() {
@@ -19,12 +15,12 @@ bool game::Player::applyVelocity() {
     float newY{ rect.GetY() + velocity };
     newY = std::max(newY, 0.0f);
 
-    if (newY > screenHeight) {
-        return false;
+    if (newY > screenSize) {
+        return true;
     }
 
     rect.SetY(newY);
-    return true;
+    return false;
 }
 
 bool game::Player::processMovement() {
