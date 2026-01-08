@@ -7,6 +7,12 @@ bool game::Pipe::CheckCollision(const raylib::Rectangle &player) {
     const raylib::Vector2 offset = (player.GetSize() - scaledSize) / 2.0f;
     const raylib::Rectangle playerHitbox{ player.GetPosition() + offset, scaledSize };
 
+    if(!dead && playerHitbox.CheckCollision(raylib::Rectangle(raylib::Vector2{ top.GetX() + width, 0 }, raylib::Vector2{ 1, game::screenSize }))) {
+        dead = true;
+        ++game::score;
+
+        return false;
+    }
 
     return top.CheckCollision(playerHitbox) || bottom.CheckCollision(playerHitbox);
 }
@@ -37,7 +43,12 @@ float game::Pipe::GetX() {
 
 bool game::Pipe::processMovement(float lastX, const raylib::Rectangle &player) {
     const float oldX{ top.GetX() };
-    const float newX{ oldX < -width ? lastX + spacing : oldX - speed };
+
+    const float resetTo{ lastX + spacing }; 
+    const float newX{ oldX < -width ? resetTo : oldX - speed };
+
+    if(newX == resetTo)
+        dead = false;
 
     top.SetX(newX);
     bottom.SetX(newX);

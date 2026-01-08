@@ -4,8 +4,14 @@
 #include "pipe.hpp"
 #include <array>
 
+namespace game {
+    int score{ 0 };
+}
+
 int main() {
     raylib::Window window{ game::screenSize, game::screenSize, "Flapp" };
+
+    raylib::Text scoreText("0", 50);
 
     game::Player player{};
 
@@ -32,6 +38,9 @@ int main() {
 
             lastX = pipe.GetX();
         }
+
+        scoreText.SetText(std::to_string(game::score));
+        scoreText.Draw(10, 10);
 
         EndDrawing();
     }
