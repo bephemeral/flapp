@@ -10,10 +10,10 @@ namespace game {
 
         bool dead{ false };
 
-        inline static constexpr int speed{ 2 };
-        inline static constexpr int width{ 100 };
+        inline static constexpr int speed{ 3 };
+        inline static constexpr int width{ 75 };
         inline static constexpr float hitboxModifier{ 0.8 };
-        inline static constexpr int spacing{ 350 };
+        inline static constexpr int spacing{ 300 };
 
         bool CheckCollision(const raylib::Rectangle &player);
     public:
