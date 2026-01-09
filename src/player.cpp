@@ -10,9 +10,11 @@ const raylib::Rectangle& game::Player::getRect() const {
 }
 
 bool game::Player::applyVelocity() {
-    velocity += gravity;
+    const float dt{ GetFrameTime() };
 
-    float newY{ rect.GetY() + velocity };
+    velocity += gravity * dt;
+
+    float newY{ rect.GetY() + (velocity * dt) };
     newY = std::max(newY, 0.0f);
 
     if (newY > screenSize) {

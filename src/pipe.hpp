@@ -3,6 +3,12 @@
 #include "raylib-cpp.hpp"
 
 namespace game {
+    enum class PipeCollision {
+        None,
+        Scored,
+        Collision
+    };
+
     class Pipe {
     private:
         raylib::Rectangle top;
@@ -10,16 +16,16 @@ namespace game {
 
         bool scored{ false };
 
-        inline static constexpr int speed{ 3 };
+        inline static constexpr int speed{ 200 };
         inline static constexpr int width{ 75 };
         inline static constexpr float hitboxModifier{ 0.8 };
         inline static constexpr int spacing{ 300 };
 
-        bool CheckCollision(const raylib::Rectangle &player);
+        PipeCollision CheckCollision(const raylib::Rectangle &player);
     public:
         void Draw();
         float GetX();
-        bool processMovement(float lastX, const raylib::Rectangle &player);
+        PipeCollision processMovement(float lastX, const raylib::Rectangle &player);
 
         Pipe(int index);
     };
